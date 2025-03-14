@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Dashboard</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            padding: 30px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header Styling */
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 2.5em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Search Form Styling */
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            display: flex;
+            gap: 15px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* Add Department Link */
+        .add-dept {
+            display: block;
+            text-align: center;
+            margin-bottom: 40px;
+            text-decoration: none;
+            color: #27ae60;
+            font-weight: 600;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .add-dept:hover {
+            color: #219653;
+        }
+
+        /* Table Styling */
+        table {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        th {
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        td {
+            padding: 15px 20px;
+            font-size: 15px;
+            vertical-align: middle;
+        }
+
+        /* S.No Column Styling */
+        td:first-child, th:first-child {
+            width: 80px;
+            text-align: center;
+        }
+
+        /* Actions Styling */
+        .actions a {
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .actions a.edit {
+            background-color: #f1c40f;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .actions a.edit:hover {
+            background-color: #d4ac0d;
+            transform: translateY(-2px);
+        }
+
+        .actions a.delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .actions a.delete:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        /* Empty State */
+        td[colspan="4"] {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 30px;
+            font-size: 16px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            th, td {
+                min-width: 150px;
+            }
+
+            td:first-child, th:first-child {
+                min-width: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .actions a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Department Dashboard</h1>
+
+    <div class="search-container">
+        <form method="GET" action="{% url 'department_dashboard' %}" style="display: flex; flex: 1; gap: 10px;">
+            <input type="text" name="search" placeholder="Search by department name..." value="{{ request.GET.search }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <a href="{% url 'add_department' %}" class="add-dept">Add Department</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Department Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in departments %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ department.dept_name }}</td>
+                    <td>{{ department.description }}</td>
+                    <td>
+                        <div class="actions">
+                            <a href="{% url 'edit_department' department.id %}" class="edit">Edit</a>
+                            <a href="{% url 'delete_department' department.id %}" class="delete">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No active departments found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,145 @@
+         <!-- departments/templates/departments/delete_department.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Department</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            padding: 40px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container styling */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Header styling */
+        h1 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .dept-name {
+            color: #e74c3c;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Warning message */
+        p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #fef5f5;
+            border-left: 4px solid #e74c3c;
+            border-radius: 5px;
+        }
+
+        /* Form styling */
+        form {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Cancel link */
+        .cancel-link {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 0 10px;
+            text-decoration: none;
+            color: #3498db;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-link:hover {
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            form, .cancel-link {
+                display: block;
+                margin: 10px auto;
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Are you sure you want to deactivate the department "<span class="dept-name">{{ department.dept_name }}</span>"?</h1>
+        <p>Making this department inactive will unassign any employees linked to it.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Deactivate Department</button>
+        </form>
+
+        <a href="{% url 'department_dashboard' %}" class="cancel-link">Cancel</a>
+    </div>
+</body>
+</html>
+
